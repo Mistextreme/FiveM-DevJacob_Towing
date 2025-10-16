@@ -214,14 +214,39 @@ end
         -- Disable take cover key
         DisableControlAction(0, 44, false)
 
+        -- function getNextPoint()
+        --     -- Display line
+        --     local _maxDist = 20
+        --     local _pointsPerStep = 25
+
+        --     local p1 = GetEntityCoords(self.towingCarHandle)
+        --     local p2 = self:GetHookStorageWorldPosition()
+        --     local m = (p2.y - p1.y) / (p2.x - p1.x)
+            
+        --     local steps = ternary(
+        --         math.abs(math.max(p1.x, p2.x) - math.min(p1.x, p2.x)) >= _maxDist,
+        --         _maxDist,
+        --         math.abs(math.max(p1.x, p2.x) - math.min(p1.x, p2.x))
+        --     )
+        --     local points = steps * _pointsPerStep
+
+        --     local stepFactor = (math.max(p1.x, p2.x) - math.min(p1.x, p2.x)) / points
+            
+        --     local x = ternary(p1.x < p2.x, (p1.x + stepFactor), (p1.x - stepFactor))
+        --     local y = m * (x - p1.x) + p1.y
+        --     return vector3(x, y, p1.z)
+        -- end
+
+
         -- Wind
         if IsControlPressed(0, 51) and not IsControlPressed(0, 52) then
-            self:DetachCar()
+            -- self:DetachCar()
             ActivatePhysics(self.towingCarHandle)
             StartRopeWinding(self.hookRopeHandle)
             FreezeEntityPosition(self.truckHandle, true)
             
         elseif IsControlJustReleased(0, 51) then
+            ActivatePhysics(self.towingCarHandle)
             StopRopeWinding(self.hookRopeHandle)
             FreezeEntityPosition(self.truckHandle, false)
             -- self:AttachCarToBed()
@@ -229,12 +254,13 @@ end
         
         -- Unwind
         if IsControlPressed(0, 52) and not IsControlPressed(0, 51) then
-            self:DetachCar()
+            -- self:DetachCar()
             ActivatePhysics(self.towingCarHandle)
             StartRopeUnwindingFront(self.hookRopeHandle)
             FreezeEntityPosition(self.truckHandle, true)
             
         elseif IsControlJustReleased(0, 52) then
+            ActivatePhysics(self.towingCarHandle)
             StopRopeUnwindingFront(self.hookRopeHandle)
             FreezeEntityPosition(self.truckHandle, false)
             -- self:AttachCarToBed()
@@ -957,7 +983,6 @@ end
         end
 
         local handle = NetworkGetEntityFromNetworkId(bagValue)
-        Logger.Debug("ScoopTowTruck:GetTowingCarNetId = ", handle)
         if self.towingCarHandle ~= handle then
             self.towingCarHandle = handle
         end
@@ -1008,7 +1033,7 @@ end
 
         DetachEntity(towingCarHandle, false, false)
 
-        SetEntityCoords(towingCarHandle, coords.x, coords.y, coords.z + 0.3, false, false, false, false)
+        SetEntityCoords(towingCarHandle, coords.x, coords.y, coords.z + 0.45, false, false, false, false)
         SetEntityRotation(towingCarHandle, rotation.x, rotation.y, rotation.z, 2, false)
 
         SetEntityCleanupByEngine(towingCarHandle, true)
