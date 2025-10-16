@@ -1076,7 +1076,7 @@ end
             return -1
         end
 
-        local handle = NetToVeh(bagValue)
+        local handle = NetworkGetEntityFromNetworkId(bagValue)
         if self.towingCarHandle ~= handle then
             self.towingCarHandle = handle
         end
@@ -1120,7 +1120,7 @@ end
 
         DetachEntity(towingCarHandle, false, false)
 
-        SetEntityCoords(towingCarHandle, coords.x, coords.y, coords.z + 0.3, false, false, false, false)
+        SetEntityCoords(towingCarHandle, coords.x, coords.y, coords.z + 0.45, false, false, false, false)
         SetEntityRotation(towingCarHandle, rotation.x, rotation.y, rotation.z, 2, false)
 
         SetEntityCleanupByEngine(towingCarHandle, true)
